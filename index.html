@@ -1,296 +1,378 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Ziel-ROAS Rechner (inkl. CLV)</title>
 <style>
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Roboto, sans-serif;
-  background: #f4f4f6;
-  padding: 20px;
-}
-.roas-calculator {
-  max-width: 900px;
-  margin: 40px auto;
-  background: #fff;
-  border-radius: 24px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  padding: 32px;
-  color: #1c1c1e;
-}
-h2 {
-  text-align: center;
-  font-size: 1.8rem;
-  margin-bottom: 6px;
-}
-.subtitle {
-  text-align: center;
-  color: #666;
-  margin-bottom: 24px;
-}
-.input-grid {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-.column {
-  flex: 1;
-  min-width: 280px;
-}
-label {
-  font-size: 0.9rem;
-  color: #444;
-  display: block;
-  margin-bottom: 6px;
-  margin-top: 12px;
-}
-input {
-  padding: 10px;
-  border: 1px solid #d2d2d7;
-  border-radius: 10px;
-  font-size: 1rem;
-  background: #f9f9f9;
-  width: 100%;
-  box-sizing: border-box;
-  transition: all 0.2s;
-}
-input:focus {
-  outline: none;
-  border-color: #0071e3;
-  background: white;
-  box-shadow: 0 0 0 2px rgba(0,113,227,0.1);
-}
-.input-blue {
-  border-color: #0071e3;
-  box-shadow: 0 0 0 2px rgba(0,113,227,0.15);
-}
-.button-main {
-  margin-top: 30px;
-  width: 100%;
-  background: #0071e3;
-  color: white;
-  font-weight: 600;
-  border: none;
-  border-radius: 14px;
-  padding: 14px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.button-main:hover {
-  background: #0a84ff;
-}
-.results {
-  margin-top: 30px;
-  text-align: center;
-  animation: fadeIn 0.6s ease forwards;
-  display: none;
-}
-.result-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-.result-card {
-  background: #f5f5f7;
-  padding: 16px;
-  border-radius: 16px;
-  transition: transform 0.3s;
-}
-.result-card.highlight {
-  background: #e8f0fe;
-  box-shadow: 0 0 0 2px #0071e3 inset;
-}
-.result-card h1 {
-  margin: 6px 0;
-  font-size: 1.8rem;
-}
-.field-live {
-  margin-top: 16px;
-}
-.field-live h2 {
-  font-size: 1.4rem;
-  color: #0071e3;
-  margin: 6px 0 0 0;
-  font-weight: 600;
-}
-footer {
-  text-align: center;
-  margin-top: 30px;
-  font-size: 13px;
-  color: #999;
-}
-footer a {
-  color: #999;
-  text-decoration: none;
-  border-bottom: 1px dotted transparent;
-  transition: all 0.2s;
-}
-footer a:hover {
-  color: #0071e3;
-  border-bottom: 1px dotted #0071e3;
-}
-@keyframes fadeIn {
-  from {opacity:0;}
-  to {opacity:1;}
-}
+  :root{
+    --blue:#0071e3;
+    --muted:#6b7280;
+    --bg:#f4f6f9;
+    --card:#ffffff;
+    --input-bg:#f9f9fb;
+    --radius:12px;
+    --gap:14px;
+    font-family: -apple-system,BlinkMacSystemFont,"SF Pro Text",Roboto,Arial,Helvetica, sans-serif;
+    color-scheme: light;
+  }
+  html,body{height:100%;margin:0;background:var(--bg)}
+  .wrap{max-width:980px;margin:32px auto;padding:20px}
+  .card{
+    background:var(--card);
+    border-radius:20px;
+    padding:28px;
+    box-shadow:0 10px 30px rgba(2,6,23,0.06);
+  }
+  h1{margin:0 0 6px;font-size:20px;text-align:center;color:#0f172a}
+  p.lead{margin:0 0 18px;text-align:center;color:var(--muted)}
+  .grid{
+    display:flex;
+    gap:24px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+  .col{flex:1;min-width:300px}
+  h2.section-title{margin:0 0 12px;font-size:14px;color:var(--blue)}
+  .field{display:flex;flex-direction:column;margin-bottom:10px}
+  label{font-size:13px;color:#0f172a;margin-bottom:6px;margin-top:6px}
+  input[type=number], input[type=text]{
+    height:44px;padding:10px 12px;border-radius:10px;border:1px solid #e6e9ef;background:var(--input-bg);
+    font-size:14px;box-sizing:border-box;
+  }
+  input[readonly]{background:#f1f5f9;}
+  input:focus{outline:none;border-color:var(--blue);box-shadow:0 6px 20px rgba(11,99,255,0.06)}
+  /* special blue outline only for retention & years (visual only) */
+  .blue-outline { border-color: var(--blue); box-shadow: 0 6px 20px rgba(11,99,255,0.06); }
+  .inline-row{display:flex;gap:12px}
+  .inline-row > div{flex:1}
+  .live{margin-top:12px}
+  .live label{margin-top:10px}
+  .live-value{font-weight:700;color:var(--blue);font-size:18px;margin-top:6px}
+  .btn-main{display:block;width:100%;padding:12px;border-radius:12px;border:none;background:var(--blue);color:white;font-weight:700;font-size:15px;cursor:pointer;margin-top:12px}
+  .btn-main:hover{background:#005ec1}
+  /* results */
+  .results{margin-top:18px;display:none}
+  .results-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .result-card{background:#f7fbff;padding:12px;border-radius:12px;display:flex;flex-direction:column;justify-content:center;min-height:74px}
+  .result-title{font-size:13px;color:#0f172a;margin-bottom:6px}
+  .result-value{font-weight:700;font-size:18px;color:var(--blue)}
+  .result-value.gray{color:#6b7280}
+  /* footer / embed */
+  .footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px;flex-wrap:wrap}
+  .footer .meta{color:var(--muted);font-size:13px}
+  .footer a.brand{color:var(--muted);text-decoration:none}
+  .embed-panel{display:none;margin-top:12px}
+  .embed-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .embed-row input[type=number]{width:110px}
+  textarea#embedCode{width:100%;min-height:80px;padding:10px;border-radius:8px;border:1px solid #ddd;font-family:monospace;box-sizing:border-box;margin-top:8px}
+  .small-muted{font-size:13px;color:var(--muted);margin-top:8px}
+  /* responsive */
+  @media (max-width:740px){
+    .grid{flex-direction:column}
+    .results-grid{grid-template-columns:1fr}
+    .embed-row{flex-direction:column;align-items:stretch}
+    .embed-row input[type=number]{width:100%}
+  }
 </style>
 </head>
 <body>
+  <div class="wrap">
+    <div class="card" role="region" aria-label="Ziel-ROAS Rechner">
+      <h1>Break-Even ROAS Rechner</h1>
+      <p class="lead">Brutto eingeben → Netto automatisch. CLV-Erweiterung addiert Ertrag von Stammkunden anteilig auf Erstkauf.</p>
 
-<div class="roas-calculator">
-  <h2>Break-Even-ROAS-Rechner</h2>
-  <p class="subtitle">Berechne deinen Break-even-ROAS mit Option auf Berücksichtigung des Customer-Lifetime-Values über beliebig viele Jahre.</p>
+      <div class="grid" id="mainGrid">
+        <!-- left column: Grunddaten -->
+        <div class="col" id="col-left">
+          <h2 class="section-title">Grunddaten (pro Bestellung)</h2>
 
-  <div class="input-grid">
-    <!-- Grunddaten -->
-    <div class="column">
-      <h3>Grunddaten Werbeaktion</h3>
-      <label>Bruttoumsatz pro Bestellung (in EUR)</label>
-      <input id="revenueGross" type="number" placeholder="z. B. 59.50" oninput="updateNetto()">
-      <label>Nettoumsatz (automatisch ermittelt)</label>
-      <input id="revenueNet" type="number" readonly>
-      <label>Herstellungskosten pro Bestellung (in EUR)</label>
-      <input id="cost" type="number" placeholder="z. B. 15" oninput="updateLiveProfit()">
-      <label>Verpackung & Versand (in EUR)</label>
-      <input id="shipping" type="number" placeholder="z. B. 5" oninput="updateLiveProfit()">
-      <label>Sonstige Fixkosten (optional, in EUR)</label>
-      <input id="fixed" type="number" placeholder="z. B. 0" oninput="updateLiveProfit()">
+          <div class="field">
+            <label for="gross">Bruttoumsatz pro Bestellung (€)</label>
+            <input id="gross" type="number" step="0.01" placeholder="z. B. 59.50" />
+          </div>
 
-      <div class="field-live">
-        <label>Ertrag pro Kunde</label>
-        <h2 id="liveProfit">–</h2>
-      </div>
-    </div>
+          <div class="field">
+            <label for="net">Nettoumsatz (automatisch)</label>
+            <input id="net" type="text" readonly />
+          </div>
 
-    <!-- CLV Daten -->
-    <div class="column">
-      <h3>CLV-Erweiterung</h3>
-      <label>Brutto-Umsatz eines Stammkunden pro Jahr (in EUR)</label>
-      <input id="repeatRevGross" type="number" placeholder="z. B. 59.50" oninput="updateLiveCLV()">
-      <label>Nettoumsatz Stammkunde (automatisch)</label>
-      <input id="repeatRevNet" type="number" readonly>
-      <label>Herstellungskosten pro Jahr (in EUR)</label>
-      <input id="repeatCost" type="number" placeholder="z. B. 15" oninput="updateLiveCLV()">
-      <label>Versandkosten pro Jahr (in EUR)</label>
-      <input id="repeatShip" type="number" placeholder="z. B. 5" oninput="updateLiveCLV()">
+          <div class="field">
+            <label for="prodCost">Herstellungskosten pro Bestellung (€)</label>
+            <input id="prodCost" type="number" step="0.01" placeholder="z. B. 15" />
+          </div>
 
-      <div style="display:flex; gap:12px; margin-top:0px; align-items:flex-end;">
-        <div style="flex:1;">
-          <label>Anteil Neukunden, die Stammkunden werden (%)</label>
-          <input id="retention" type="number" placeholder="z. B. 50" oninput="updateLiveCLV()" class="input-blue">
+          <div class="field">
+            <label for="shipCost">Versand / Verpackung pro Bestellung (€)</label>
+            <input id="shipCost" type="number" step="0.01" placeholder="z. B. 5" />
+          </div>
+
+          <div class="field">
+            <label for="fixedCosts">Fixkosten (optional, pro Zeitraum in €)</label>
+            <input id="fixedCosts" type="number" step="0.01" placeholder="z. B. 0" />
+          </div>
+
+          <div class="live" aria-live="polite">
+            <label>Ertrag pro Kunde (Erstkauf, Netto)</label>
+            <div id="profitFirst" class="live-value">–</div>
+          </div>
         </div>
-        <div style="flex:1;">
-          <label>Betrachtungszeitraum CLV (Jahre)</label>
-          <input id="years" type="number" placeholder="z. B. 1" oninput="updateLiveCLV()" class="input-blue">
+
+        <!-- right column: CLV -->
+        <div class="col" id="col-right">
+          <h2 class="section-title">CLV / Stammkunden (pro Neukunde)</h2>
+
+          <div class="field">
+            <label for="repeatGross">Brutto-Umsatz Stammkunde pro Jahr (€)</label>
+            <input id="repeatGross" type="number" step="0.01" placeholder="z. B. 59.50" />
+          </div>
+
+          <div class="field">
+            <label for="repeatNet">Nettoumsatz Stammkunde (automatisch)</label>
+            <input id="repeatNet" type="text" readonly />
+          </div>
+
+          <div class="field">
+            <label for="repeatProd">Herstellungskosten pro Jahr (€)</label>
+            <input id="repeatProd" type="number" step="0.01" placeholder="z. B. 15" />
+          </div>
+
+          <div class="field">
+            <label for="repeatShip">Versandkosten pro Jahr (€)</label>
+            <input id="repeatShip" type="number" step="0.01" placeholder="z. B. 5" />
+          </div>
+
+          <div class="inline-row" style="margin-top:6px;">
+            <div>
+              <label for="retention">Anteil, die Stammkunden werden (%)</label>
+              <input id="retention" type="number" step="0.1" placeholder="z. B. 50" />
+            </div>
+            <div>
+              <label for="years">Betrachtungszeitraum (Jahre)</label>
+              <input id="years" type="number" step="1" placeholder="z. B. 1" />
+            </div>
+          </div>
+
+          <div class="live" aria-live="polite">
+            <label>Ertrag Stammkunden (Netto, anteilig über Zeitraum)</label>
+            <div id="profitRepeat" class="live-value">–</div>
+          </div>
         </div>
       </div>
 
-      <div class="field-live">
-        <label>Ertragserhöhung durch Stammkunden (heute)</label>
-        <h2 id="liveCLV">–</h2>
-      </div>
-    </div>
-  </div>
+      <button class="btn-main" id="calcBtn" type="button">Berechnen</button>
 
-  <button class="button-main" onclick="calcROAS()">Berechnen</button>
+      <!-- Results -->
+      <div class="results" id="results">
+        <div class="results-grid">
+          <div class="result-card">
+            <div class="result-title">Break-even ROAS (Erstkauf)</div>
+            <div id="roasFirst" class="result-value">–</div>
+          </div>
+          <div class="result-card">
+            <div class="result-title">Break-even ROAS (mit CLV)</div>
+            <div id="roasClv" class="result-value gray">–</div>
+          </div>
+          <div class="result-card">
+            <div class="result-title">Maximale Kosten pro Kunde (Erstkauf)</div>
+            <div id="maxCostFirst" class="result-value gray">–</div>
+          </div>
+          <div class="result-card">
+            <div class="result-title">Maximale Kosten pro Kunde (inkl. CLV)</div>
+            <div id="maxCostClv" class="result-value gray">–</div>
+          </div>
+        </div>
+      </div>
 
-  <div class="results" id="results">
-    <div class="result-grid">
-      <div class="result-card highlight">
-        <p><strong>Break-even ROAS (Erstkauf)</strong></p>
-        <h1 id="roas1">–</h1>
-      </div>
-      <div class="result-card">
-        <p><strong>Break-even ROAS (mit CLV)</strong></p>
-        <h1 id="roas2" style="color:#666;">–</h1>
-      </div>
-      <div class="result-card">
-        <p><strong>Maximale Kosten pro Kunde (Erstkauf)</strong></p>
-        <h1 id="maxCostFirst" style="color:#666;">–</h1>
-      </div>
-      <div class="result-card">
-        <p><strong>Maximale Kosten pro Kunde (inkl. CLV)</strong></p>
-        <h1 id="maxCost" style="color:#666;">–</h1>
-      </div>
-    </div>
-  </div>
+      <!-- embed area (hidden until requested) -->
+      <div class="footer" style="margin-top:22px;">
+        <div class="meta">
+          <span style="font-size:13px;color:var(--muted)">Tool entwickelt von </span>
+          <a class="brand" href="https://www.purple-noon.de" target="_blank" rel="noopener">Purple Noon</a>
+        </div>
 
-  <footer>
-    Rechner einbetten/teilen – Tool entwickelt von 
-    <a href="https://www.purple-noon.de" target="_blank">Purple Noon</a>
-  </footer>
-</div>
+        <div>
+          <button id="showEmbed" style="background:transparent;border:1px solid var(--blue);color:var(--blue);padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600">
+            Rechner einbetten / teilen
+          </button>
+        </div>
+      </div>
+
+      <div class="embed-panel" id="embedPanel" aria-hidden="true" style="margin-top:12px">
+        <div class="embed-row" style="align-items:center;justify-content:flex-end">
+          <label class="small-muted" for="iframeHeight">Höhe (px)</label>
+          <input id="iframeHeight" type="number" value="950" min="200" />
+          <button id="copyEmbed" style="background:var(--blue);color:white;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600">Code kopieren</button>
+        </div>
+        <textarea id="embedCode" readonly style="margin-top:8px"></textarea>
+        <div class="small-muted">Kopiere den iFrame-Code und füge ihn auf anderen Seiten ein. Dein Footer-Link bleibt sichtbar.</div>
+      </div>
+
+    </div> <!-- .card -->
+  </div> <!-- .wrap -->
 
 <script>
-function updateNetto(){
-  const gross = +document.getElementById("revenueGross").value || 0;
-  const net = gross / 1.19;
-  document.getElementById("revenueNet").value = net ? net.toFixed(2) : "";
-  updateLiveProfit();
+/* Helper formatting */
+function fmt(x){ return (Math.round(x*100)/100).toFixed(2); }
+
+/* Elements */
+const grossEl = document.getElementById('gross');
+const netEl = document.getElementById('net');
+const prodCostEl = document.getElementById('prodCost');
+const shipCostEl = document.getElementById('shipCost');
+const fixedCostsEl = document.getElementById('fixedCosts');
+
+const repeatGrossEl = document.getElementById('repeatGross');
+const repeatNetEl = document.getElementById('repeatNet');
+const repeatProdEl = document.getElementById('repeatProd');
+const repeatShipEl = document.getElementById('repeatShip');
+const retentionEl = document.getElementById('retention');
+const yearsEl = document.getElementById('years');
+
+const profitFirstEl = document.getElementById('profitFirst');
+const profitRepeatEl = document.getElementById('profitRepeat');
+
+const roasFirstEl = document.getElementById('roasFirst');
+const roasClvEl = document.getElementById('roasClv');
+const maxCostFirstEl = document.getElementById('maxCostFirst');
+const maxCostClvEl = document.getElementById('maxCostClv');
+
+const resultsWrap = document.getElementById('results');
+
+const showEmbedBtn = document.getElementById('showEmbed');
+const embedPanel = document.getElementById('embedPanel');
+const iframeHeightEl = document.getElementById('iframeHeight');
+const embedCodeEl = document.getElementById('embedCode');
+const copyEmbedBtn = document.getElementById('copyEmbed');
+
+/* VAT factor (example 19%). If you use other VAT, change here. */
+const VAT = 1.19;
+
+/* Live updates for Netto + live profits */
+function updateNettoAndLive(){
+  const gross = parseFloat(grossEl.value) || 0;
+  const net = gross / VAT;
+  netEl.value = net ? fmt(net) : '';
+  updateLiveProfitFirst();
   updateLiveCLV();
 }
 
-function updateLiveProfit(){
-  const revenueNet = +document.getElementById("revenueNet").value || 0;
-  const cost = +document.getElementById("cost").value || 0;
-  const ship = +document.getElementById("shipping").value || 0;
-  const fixed = +document.getElementById("fixed").value || 0;
-  const profit = revenueNet - cost - ship - fixed;
-  document.getElementById("liveProfit").innerText = profit.toFixed(2) + " €";
+function updateLiveProfitFirst(){
+  const net = parseFloat(netEl.value) || 0;
+  const prod = parseFloat(prodCostEl.value) || 0;
+  const ship = parseFloat(shipCostEl.value) || 0;
+  const fixed = parseFloat(fixedCostsEl.value) || 0;
+  const profitFirst = net - prod - ship - fixed;
+  profitFirstEl.textContent = isFinite(profitFirst) ? (fmt(profitFirst) + ' €') : '–';
 }
 
 function updateLiveCLV(){
-  const revenueNet = +document.getElementById("revenueNet").value || 0;
-  const retention = (+document.getElementById("retention").value || 0) / 100;
-  const repeatGross = +document.getElementById("repeatRevGross").value || 0;
-  const repeatNet = repeatGross / 1.19;
-  document.getElementById("repeatRevNet").value = repeatNet.toFixed(2);
+  const net = parseFloat(netEl.value) || 0;
+  const retention = (parseFloat(retentionEl.value) || 0) / 100;
+  const repeatGross = parseFloat(repeatGrossEl.value) || 0;
+  const repeatNet = repeatGross / VAT;
+  repeatNetEl.value = repeatNet ? fmt(repeatNet) : '';
+  const repeatProd = parseFloat(repeatProdEl.value) || 0;
+  const repeatShip = parseFloat(repeatShipEl.value) || 0;
+  const years = parseFloat(yearsEl.value) || 0;
 
-  const repeatCost = +document.getElementById("repeatCost").value || 0;
-  const repeatShip = +document.getElementById("repeatShip").value || 0;
-  const years = +document.getElementById("years").value || 0;
-
-  const profitPerRepeat = (repeatNet - repeatCost - repeatShip) * retention * years;
-  document.getElementById("liveCLV").innerText = profitPerRepeat.toFixed(2) + " €";
+  const profitPerRepeat = (repeatNet - repeatProd - repeatShip) * retention * years;
+  profitRepeatEl.textContent = isFinite(profitPerRepeat) ? (fmt(profitPerRepeat) + ' €') : '–';
 }
 
-function calcROAS(){
-  const revenueNet = +document.getElementById("revenueNet").value || 0;
-  const cost = +document.getElementById("cost").value || 0;
-  const ship = +document.getElementById("shipping").value || 0;
-  const fixed = +document.getElementById("fixed").value || 0;
+/* Main calculation for ROAS */
+function calc(){
+  const net = parseFloat(netEl.value) || 0;
+  if (net <= 0) {
+    alert('Bitte Bruttoumsatz eingeben (links oben).');
+    return;
+  }
+  const prod = parseFloat(prodCostEl.value) || 0;
+  const ship = parseFloat(shipCostEl.value) || 0;
+  const fixed = parseFloat(fixedCostsEl.value) || 0;
 
-  const retention = (+document.getElementById("retention").value || 0) / 100;
-  const repeatNet = +document.getElementById("repeatRevNet").value || 0;
-  const repeatCost = +document.getElementById("repeatCost").value || 0;
-  const repeatShip = +document.getElementById("repeatShip").value || 0;
-  const years = +document.getElementById("years").value || 0;
+  const profitFirst = net - prod - ship - fixed;
+  const marginFirst = profitFirst / net;
+  const roasFirst = (marginFirst > 0) ? (1 / marginFirst) : Infinity;
 
-  const profitFirst = revenueNet - cost - ship - fixed;
-  const marginFirst = profitFirst / revenueNet;
-  const roas1 = (1 / marginFirst).toFixed(2);
-  const maxCostFirst = profitFirst.toFixed(2) + " €";
+  const retention = (parseFloat(retentionEl.value) || 0) / 100;
+  const repeatNet = parseFloat(repeatNetEl.value) || 0;
+  const repeatProd = parseFloat(repeatProdEl.value) || 0;
+  const repeatShip = parseFloat(repeatShipEl.value) || 0;
+  const years = parseFloat(yearsEl.value) || 0;
 
-  const profitPerRepeat = (repeatNet - repeatCost - repeatShip) * retention * years;
-  const newProfit = profitFirst + profitPerRepeat;
-  const newMargin = newProfit / revenueNet;
-  const roas2 = (1 / newMargin).toFixed(2);
-  const maxCost = newProfit.toFixed(2) + " €";
+  const profitRepeat = (repeatNet - repeatProd - repeatShip) * retention * years;
+  const totalProfit = profitFirst + profitRepeat;
+  const marginTotal = totalProfit / net;
+  const roasClv = (marginTotal > 0) ? (1 / marginTotal) : Infinity;
 
-  document.getElementById("results").style.display = "grid";
-  document.getElementById("roas1").innerText = roas1;
-  document.getElementById("roas2").innerText = roas2;
-  document.getElementById("maxCostFirst").innerText = maxCostFirst;
-  document.getElementById("maxCost").innerText = maxCost;
+  // Fill UI
+  profitFirstEl.textContent = isFinite(profitFirst) ? (fmt(profitFirst) + ' €') : '–';
+  profitRepeatEl.textContent = isFinite(profitRepeat) ? (fmt(profitRepeat) + ' €') : '–';
+  roasFirstEl.textContent = isFinite(roasFirst) ? fmt(roasFirst) + 'x' : '–';
+  roasClvEl.textContent = isFinite(roasClv) ? fmt(roasClv) + 'x' : '–';
+  maxCostFirstEl.textContent = isFinite(profitFirst) ? (fmt(profitFirst) + ' €') : '–';
+  maxCostClvEl.textContent = isFinite(totalProfit) ? (fmt(totalProfit) + ' €') : '–';
+
+  resultsWrap.style.display = 'block';
 }
 
-updateNetto();
-updateLiveProfit();
+/* Embed panel logic */
+function openEmbedPanel(){
+  const isHidden = embedPanel.style.display === '' || embedPanel.style.display === 'none';
+  embedPanel.style.display = isHidden ? 'block' : 'none';
+  if (isHidden) generateEmbedCode();
+}
+function generateEmbedCode(){
+  const height = parseInt(iframeHeightEl.value) || 950;
+  // Replace YOUR_GITHUB_USERNAME with your actual GitHub username or host domain before publishing.
+  const src = `https://YOUR_GITHUB_USERNAME.github.io/roas-rechner/`;
+  const code = `<iframe src="${src}" width="100%" height="${height}" style="border:none;"></iframe>`;
+  embedCodeEl.value = code;
+}
+function copyEmbed(){
+  const code = embedCodeEl.value;
+  if (!code) { generateEmbedCode(); }
+  // Clipboard API with fallback
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(embedCodeEl.value).then(()=> {
+      copyEmbedBtn.textContent = 'Kopiert ✓';
+      setTimeout(()=>copyEmbedBtn.textContent='Code kopieren',1400);
+    }).catch(()=> fallbackCopy());
+  } else fallbackCopy();
+
+  function fallbackCopy(){
+    embedCodeEl.select();
+    try {
+      document.execCommand('copy');
+      copyEmbedBtn.textContent = 'Kopiert ✓';
+      setTimeout(()=>copyEmbedBtn.textContent='Code kopieren',1400);
+    } catch(e) {
+      alert('Kopieren fehlgeschlagen — bitte manuell markieren und kopieren.');
+    }
+  }
+}
+
+/* Attach events */
+grossEl.addEventListener('input', updateNettoAndLive);
+prodCostEl.addEventListener('input', updateLiveProfitFirst);
+shipCostEl.addEventListener('input', updateLiveProfitFirst);
+fixedCostsEl.addEventListener('input', updateLiveProfitFirst);
+
+repeatGrossEl.addEventListener('input', updateLiveCLV);
+repeatProdEl.addEventListener('input', updateLiveCLV);
+repeatShipEl.addEventListener('input', updateLiveCLV);
+retentionEl.addEventListener('input', function(){ retentionEl.classList.add('blue-outline'); updateLiveCLV(); });
+yearsEl.addEventListener('input', function(){ yearsEl.classList.add('blue-outline'); updateLiveCLV(); });
+
+document.getElementById('calcBtn').addEventListener('click', calc);
+showEmbedBtn.addEventListener('click', openEmbedPanel);
+iframeHeightEl.addEventListener('input', generateEmbedCode);
+copyEmbedBtn.addEventListener('click', copyEmbed);
+
+/* init */
+updateNettoAndLive();
 updateLiveCLV();
 </script>
-
 </body>
 </html>
