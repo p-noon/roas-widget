@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ziel-ROAS Rechner (inkl. CLV)</title>
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Roboto, sans-serif;
+  background: #f4f4f6;
+  padding: 20px;
+}
+.roas-calculator {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  padding: 32px;
+  color: #1c1c1e;
+}
+h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 6px;
+}
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 24px;
+}
+.input-grid {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.column {
+  flex: 1;
+  min-width: 280px;
+}
+label {
+  font-size: 0.9rem;
+  color: #444;
+  display: block;
+  margin-bottom: 6px;
+  margin-top: 12px;
+}
+input {
+  padding: 10px;
+  border: 1px solid #d2d2d7;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #f9f9f9;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.2s;
+}
+input:focus {
+  outline: none;
+  border-color: #0071e3;
+  background: white;
+  box-shadow: 0 0 0 2px rgba(0,113,227,0.1);
+}
+.input-blue {
+  border-color: #0071e3;
+  box-shadow: 0 0 0 2px rgba(0,113,227,0.15);
+}
+.button-main {
+  margin-top: 30px;
+  width: 100%;
+  background: #0071e3;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.button-main:hover {
+  background: #0a84ff;
+}
+.results {
+  margin-top: 30px;
+  text-align: center;
+  animation: fadeIn 0.6s ease forwards;
+  display: none;
+}
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.result-card {
+  background: #f5f5f7;
+  padding: 16px;
+  border-radius: 16px;
+  transition: transform 0.3s;
+}
+.result-card.highlight {
+  background: #e8f0fe;
+  box-shadow: 0 0 0 2px #0071e3 inset;
+}
+.result-card h1 {
+  margin: 6px 0;
+  font-size: 1.8rem;
+}
+.field-live {
+  margin-top: 16px;
+}
+.field-live h2 {
+  font-size: 1.4rem;
+  color: #0071e3;
+  margin: 6px 0 0 0;
+  font-weight: 600;
+}
+footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #999;
+}
+footer a {
+  color: #0071e3;
+  text-decoration: none;
+}
+#embedContainer {
+  display: none;
+  margin-top: 12px;
+}
+#embedCode {
+  width: 100%;
+  height: 90px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-family: monospace;
+}
+@keyframes fadeIn {
+  from {opacity:0;}
+  to {opacity:1;}
+}
+</style>
+</head>
+<body>
+
+<div class="roas-calculator">
+  <h2>Break-Even-ROAS-Rechner</h2>
+  <p class="subtitle">Berechne deinen Break-even-ROAS mit Option auf Berücksichtigung des Customer-Lifetime-Values über beliebig viele Jahre.</p>
+
+  <div class="input-grid">
+    <!-- Grunddaten -->
+    <div class="column">
+      <h3>Grunddaten Werbeaktion</h3>
+      <label>Bruttoumsatz pro Bestellung (in EUR)</label>
+      <input id="revenueGross" type="number" placeholder="z. B. 59.50" oninput="updateNetto()">
+      <label>Nettoumsatz (automatisch ermittlelt)</label>
+      <input id="revenueNet" type="number" readonly>
+      <label>Herstellungskosten pro Bestellung (in EUR)</label>
+      <input id="cost" type="number" placeholder="z. B. 15" oninput="updateLiveProfit()">
+      <label>Verpackung & Versand (in EUR)</label>
+      <input id="shipping" type="number" placeholder="z. B. 5" oninput="updateLiveProfit()">
+      <label>sonst. Fixkosten (optional, in EUR)</label>
+      <input id="fixed" type="number" placeholder="z. B. 0" oninput="updateLiveProfit()">
+
+      <div class="field-live">
+        <label>Ertrag pro Kunde</label>
+        <h2 id="liveProfit">–</h2>
+      </div>
+    </div>
+
+    <!-- CLV Daten -->
+    <div class="column">
+      <h3>CLV-Erweiterung</h3>
+      <label>Brutto-Umsatz eines Stammkunden pro Jahr (in EUR)</label>
+      <input id="repeatRevGross" type="number" placeholder="z. B. 59.50" oninput="updateLiveCLV()">
+      <label>Nettoumsatz Stammkunde (automatisch)</label>
+      <input id="repeatRevNet" type="number" readonly>
+      <label>Herstellungskosten pro Jahr (in EUR)</label>
+      <input id="repeatCost" type="number" placeholder="z. B. 15" oninput="updateLiveCLV()">
+      <label>Versandkosten pro Jahr (in EUR)</label>
+      <input id="repeatShip" type="number" placeholder="z. B. 5" oninput="updateLiveCLV()">
+
+      <div style="display:flex; gap:12px; margin-top:12px; align-items:flex-end;">
+        <div style="flex:1;">
+          <label>Anteil Neukunden, die Stammkunden werden (%)</label>
+          <input id="retention" type="number" placeholder="z. B. 50" oninput="updateLiveCLV()" class="input-blue">
+        </div>
+        <div style="flex:1;">
+          <label>Betrachtungszeitraum des CLV (Jahre)</label>
+          <input id="years" type="number" placeholder="z. B. 1" oninput="updateLiveCLV()" class="input-blue">
+        </div>
+      </div>
+
+      <div class="field-live">
+        <label>Ertragserhöhung (heute) durch neu-gewonnene Stammkunden</label>
+        <h2 id="liveCLV">–</h2>
+      </div>
+    </div>
+  </div>
+
+  <button class="button-main" onclick="calcROAS()">Berechnen</button>
+
+  <div class="results" id="results">
+    <div class="result-grid">
+      <div class="result-card highlight">
+        <p><strong>Break-even ROAS (Erstkauf)</strong></p>
+        <h1 id="roas1">–</h1>
+      </div>
+      <div class="result-card">
+        <p><strong>Break-even ROAS (mit CLV)</strong></p>
+        <h1 id="roas2" style="color:#666;">–</h1>
+      </div>
+      <div class="result-card">
+        <p><strong>Maximale Kosten pro Kunde (Erstkauf)</strong></p>
+        <h1 id="maxCostFirst" style="color:#666;">–</h1>
+      </div>
+      <div class="result-card">
+        <p><strong>Maximale Kosten pro Kunde (inkl. CLV)</strong></p>
+        <h1 id="maxCost" style="color:#666;">–</h1>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px; text-align:center; font-size:13px; color:#999;">
+    <button id="showEmbed" onclick="toggleEmbed()" style="background:none; border:none; color:#0071e3; cursor:pointer; text-decoration:underline;">Rechner einbetten/teilen</button>
+  </div>
+
+  <div id="embedContainer">
+    <textarea id="embedCode" readonly>
+<iframe src="https://USERNAME.github.io/roas-rechner/" width="100%" height="950" style="border:none;"></iframe>
+    </textarea>
+  </div>
+
+  <footer>
+    Tool entwickelt von <a href="https://www.purple-noon.de" target="_blank">Purple Noon</a>
+  </footer>
+</div>
+
+<script>
+function updateNetto(){
+  const gross = +document.getElementById("revenueGross").value || 0;
+  const net = gross / 1.19;
+  document.getElementById("revenueNet").value = net ? net.toFixed(2) : "";
+  updateLiveProfit();
+  updateLiveCLV();
+}
+
+function updateLiveProfit(){
+  const revenueNet = +document.getElementById("revenueNet").value || 0;
+  const cost = +document.getElementById("cost").value || 0;
+  const ship = +document.getElementById("shipping").value || 0;
+  const fixed = +document.getElementById("fixed").value || 0;
+  const profit = revenueNet - cost - ship - fixed;
+  document.getElementById("liveProfit").innerText = profit.toFixed(2) + " €";
+}
+
+function updateLiveCLV(){
+  const revenueNet = +document.getElementById("revenueNet").value || 0;
+  const retention = (+document.getElementById("retention").value || 0) / 100;
+  const repeatGross = +document.getElementById("repeatRevGross").value || 0;
+  const repeatNet = repeatGross / 1.19;
+  document.getElementById("repeatRevNet").value = repeatNet.toFixed(2);
+
+  const repeatCost = +document.getElementById("repeatCost").value || 0;
+  const repeatShip = +document.getElementById("repeatShip").value || 0;
+  const years = +document.getElementById("years").value || 0;
+
+  const profitPerRepeat = (repeatNet - repeatCost - repeatShip) * retention * years;
+  document.getElementById("liveCLV").innerText = profitPerRepeat.toFixed(2) + " €";
+}
+
+function calcROAS(){
+  const revenueNet = +document.getElementById("revenueNet").value || 0;
+  const cost = +document.getElementById("cost").value || 0;
+  const ship = +document.getElementById("shipping").value || 0;
+  const fixed = +document.getElementById("fixed").value || 0;
+
+  const retention = (+document.getElementById("retention").value || 0) / 100;
+  const repeatNet = +document.getElementById("repeatRevNet").value || 0;
+  const repeatCost = +document.getElementById("repeatCost").value || 0;
+  const repeatShip = +document.getElementById("repeatShip").value || 0;
+  const years = +document.getElementById("years").value || 0;
+
+  const profitFirst = revenueNet - cost - ship - fixed;
+  const marginFirst = profitFirst / revenueNet;
+  const roas1 = (1 / marginFirst).toFixed(2);
+  const maxCostFirst = profitFirst.toFixed(2) + " €";
+
+  const profitPerRepeat = (repeatNet - repeatCost - repeatShip) * retention * years;
+  const newProfit = profitFirst + profitPerRepeat;
+  const newMargin = newProfit / revenueNet;
+  const roas2 = (1 / newMargin).toFixed(2);
+  const maxCost = newProfit.toFixed(2) + " €";
+
+  document.getElementById("results").style.display = "grid";
+  document.getElementById("roas1").innerText = roas1;
+  document.getElementById("roas2").innerText = roas2;
+  document.getElementById("maxCostFirst").innerText = maxCostFirst;
+  document.getElementById("maxCost").innerText = maxCost;
+}
+
+function toggleEmbed(){
+  const container = document.getElementById("embedContainer");
+  container.style.display = container.style.display === "block" ? "none" : "block";
+}
+
+// initial
+updateNetto();
+updateLiveProfit();
+updateLiveCLV();
+</script>
+
+</body>
+</html>
