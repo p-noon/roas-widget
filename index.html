@@ -46,15 +46,10 @@ footer a:hover { text-decoration:underline; }
 .close-btn:hover { background:#0a84ff; }
 @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
 
-/* 📱 Mobile Anpassungen */
 @media (max-width: 600px){
   .result-grid { grid-template-columns: 1fr; }
   .input-grid .column > div { display: block; }
-  
-  /* Retention & CLV-Zeitraum untereinander */
-  .column > div[style*="flex-wrap:wrap"] {
-    flex-direction: column !important;
-  }
+  .column > div[style*="flex-wrap:wrap"] { flex-direction: column !important; }
 }
 </style>
 </head>
@@ -75,7 +70,6 @@ footer a:hover { text-decoration:underline; }
       <input id="cost" type="text" placeholder="z. B. 15">
       <label>Verpackung & Versand (in EUR)</label>
       <input id="shipping" type="text" placeholder="z. B. 5">
-
       <div class="field-live">
         <label>Ertrag pro Kunde</label>
         <h2 id="liveProfit">–</h2>
@@ -185,12 +179,13 @@ function updateLiveCLV(){
 
 // ---------- ROAS ----------
 function calcROAS(){
+  const revenueGross=parseNum(document.getElementById("revenueGross").value);
   const revenueNet=parseNum(document.getElementById("revenueNet").value);
   const cost=parseNum(document.getElementById("cost").value);
   const ship=parseNum(document.getElementById("shipping").value);
-  const profitFirst=revenueNet-cost-ship;
-  const marginFirst=profitFirst/revenueNet;
-  const roas1=(1/marginFirst).toFixed(2);
+
+  const profitFirst = revenueNet - cost - ship;
+  const roas1 = (revenueGross/profitFirst).toFixed(2); // Netto-Ertrag ins Verhältnis zu Brutto
 
   const retention=parseNum(document.getElementById("retention").value)/100;
   const repeatNet=parseNum(document.getElementById("repeatRevNet").value);
@@ -198,16 +193,15 @@ function calcROAS(){
   const repeatShip=parseNum(document.getElementById("repeatShip").value);
   const years=parseNum(document.getElementById("years").value);
 
-  const profitPerRepeat=(repeatNet-repeatCost-repeatShip)*retention*years;
-  const newProfit=profitFirst+profitPerRepeat;
-  const newMargin=newProfit/revenueNet;
-  const roas2=(1/newMargin).toFixed(2);
+  const profitPerRepeat = (repeatNet - repeatCost - repeatShip) * retention * years;
+  const newProfit = profitFirst + profitPerRepeat;
+  const roas2 = (revenueGross/newProfit).toFixed(2);
 
   document.getElementById("results").style.display="grid";
-  document.getElementById("roas1").innerText=roas1;
-  document.getElementById("roas2").innerText=roas2;
-  document.getElementById("maxCostFirst").innerText=fmt(profitFirst)+" €";
-  document.getElementById("maxCost").innerText=fmt(newProfit)+" €";
+  document.getElementById("roas1").innerText = roas1;
+  document.getElementById("roas2").innerText = roas2;
+  document.getElementById("maxCostFirst").innerText = fmt(profitFirst)+" €";
+  document.getElementById("maxCost").innerText = fmt(newProfit)+" €";
 }
 
 // ---------- Input Format ----------
@@ -224,4 +218,3 @@ document.getElementById("embedLink").addEventListener("click",e=>{ e.preventDefa
 
 </body>
 </html>
-
