@@ -19,167 +19,37 @@ body {
   padding: 32px;
   color: #1c1c1e;
 }
-h2 {
-  text-align: center;
-  font-size: 1.8rem;
-  margin-bottom: 6px;
-}
-.subtitle {
-  text-align: center;
-  color: #666;
-  margin-bottom: 24px;
-}
-.input-grid {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-.column {
-  flex: 1;
-  min-width: 280px;
-}
-label {
-  font-size: 0.9rem;
-  color: #444;
-  display: block;
-  margin-bottom: 6px;
-  margin-top: 14px;
-}
-input {
-  padding: 10px;
-  border: 1px solid #d2d2d7;
-  border-radius: 10px;
-  font-size: 1rem;
-  background: #f9f9f9;
-  width: 100%;
-  box-sizing: border-box;
-  transition: all 0.2s;
-}
-input:focus {
-  outline: none;
-  border-color: #0071e3;
-  background: white;
-  box-shadow: 0 0 0 2px rgba(0,113,227,0.1);
-}
-.input-blue {
-  border-color: #0071e3;
-  box-shadow: 0 0 0 2px rgba(0,113,227,0.15);
-}
-.button-main {
-  margin-top: 30px;
-  width: 100%;
-  background: #0071e3;
-  color: white;
-  font-weight: 600;
-  border: none;
-  border-radius: 14px;
-  padding: 14px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.button-main:hover {
-  background: #0a84ff;
-}
-.results {
-  margin-top: 30px;
-  text-align: center;
-  animation: fadeIn 0.6s ease forwards;
-  display: none;
-}
-.result-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-.result-card {
-  background: #f5f5f7;
-  padding: 16px;
-  border-radius: 16px;
-  transition: transform 0.3s;
-}
-.result-card.highlight {
-  background: #e8f0fe;
-  box-shadow: 0 0 0 2px #0071e3 inset;
-}
-.result-card h1 {
-  margin: 6px 0;
-  font-size: 1.8rem;
-}
-.field-live {
-  margin-top: 16px;
-}
-.field-live h2 {
-  font-size: 1.4rem;
-  color: #0071e3;
-  margin: 6px 0 0 0;
-  font-weight: 600;
-}
-footer {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 13px;
-  color: #999;
-}
-footer a {
-  color: #0071e3;
-  text-decoration: none;
-}
-footer a:hover {
-  text-decoration: underline;
-}
-.overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
-.overlay-content {
-  background: white;
-  padding: 24px;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 600px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-.overlay-content textarea {
-  width: 100%;
-  height: 120px;
-  font-family: monospace;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  padding: 8px;
-}
-.close-btn {
-  background: #0071e3;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  margin-top: 12px;
-  cursor: pointer;
-}
-.close-btn:hover {
-  background: #0a84ff;
-}
-@keyframes fadeIn {
-  from {opacity:0;}
-  to {opacity:1;}
-}
+h2 { text-align:center; font-size:1.8rem; margin-bottom:6px; }
+.subtitle { text-align:center; color:#666; margin-bottom:24px; }
+.input-grid { display:flex; gap:24px; flex-wrap:wrap; }
+.column { flex:1; min-width:280px; }
+label { font-size:0.9rem; color:#444; display:block; margin-bottom:6px; margin-top:14px; }
+input { padding:10px; border:1px solid #d2d2d7; border-radius:10px; font-size:1rem; background:#f9f9f9; width:100%; box-sizing:border-box; transition: all 0.2s; }
+input:focus { outline:none; border-color:#0071e3; background:white; box-shadow:0 0 0 2px rgba(0,113,227,0.1); }
+.input-blue { border-color:#0071e3; box-shadow:0 0 0 2px rgba(0,113,227,0.15); }
+.button-main { margin-top:30px; width:100%; background:#0071e3; color:white; font-weight:600; border:none; border-radius:14px; padding:14px; font-size:1.1rem; cursor:pointer; transition: background 0.2s; }
+.button-main:hover { background:#0a84ff; }
+.results { margin-top:30px; text-align:center; animation: fadeIn 0.6s ease forwards; display:none; }
+.result-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.result-card { background:#f5f5f7; padding:16px; border-radius:16px; transition: transform 0.3s; }
+.result-card.highlight { background:#e8f0fe; box-shadow:0 0 0 2px #0071e3 inset; }
+.result-card h1 { margin:6px 0; font-size:1.8rem; }
+.field-live { margin-top:16px; }
+.field-live h2 { font-size:1.4rem; color:#0071e3; margin:6px 0 0 0; font-weight:600; }
+footer { text-align:center; margin-top:20px; font-size:13px; color:#999; }
+footer a { color:#0071e3; text-decoration:none; }
+footer a:hover { text-decoration:underline; }
+.overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:none; justify-content:center; align-items:center; z-index:999; }
+.overlay-content { background:white; padding:24px; border-radius:16px; width:90%; max-width:600px; box-shadow:0 10px 30px rgba(0,0,0,0.2); }
+.overlay-content textarea { width:100%; height:120px; font-family:monospace; border-radius:8px; border:1px solid #ccc; padding:8px; }
+.close-btn { background:#0071e3; color:white; border:none; padding:8px 16px; border-radius:8px; margin-top:12px; cursor:pointer; }
+.close-btn:hover { background:#0a84ff; }
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
 
-/* 📱 Mobilanpassung */
-@media (max-width: 600px) {
-  .result-grid {
-    grid-template-columns: 1fr;
-  }
-  .input-grid > .column > div[style*="display:flex"] {
-    flex-direction: column !important;
-  }
+/* 📱 Mobile Anpassungen */
+@media (max-width: 600px){
+  .result-grid{grid-template-columns:1fr;}
+  .input-grid .column > div { display:block; }
 }
 </style>
 </head>
@@ -187,20 +57,19 @@ footer a:hover {
 
 <div class="roas-calculator">
   <h2>Break-Even-ROAS-Rechner</h2>
-  <p class="subtitle">Berechne deinen Break-even-ROAS mit Option auf Berücksichtigung des Customer-Lifetime-Values über beliebig viele Jahre.</p>
+  <p class="subtitle">Berechne deinen Break-even-ROAS inkl. CLV über beliebig viele Jahre.</p>
 
   <div class="input-grid">
-    <!-- Grunddaten -->
     <div class="column">
       <h3>Grunddaten Werbeaktion</h3>
       <label>Bruttoumsatz pro Bestellung (in EUR)</label>
-      <input id="revenueGross" type="number" placeholder="z. B. 59.50" oninput="updateNetto()">
-      <label>Nettoumsatz (automatisch ermittelt)</label>
-      <input id="revenueNet" type="number" readonly>
+      <input id="revenueGross" type="text" placeholder="z. B. 59,50">
+      <label>Nettoumsatz (automatisch)</label>
+      <input id="revenueNet" type="text" readonly>
       <label>Herstellungskosten pro Bestellung (in EUR)</label>
-      <input id="cost" type="number" placeholder="z. B. 15" oninput="updateLiveProfit()">
+      <input id="cost" type="text" placeholder="z. B. 15">
       <label>Verpackung & Versand (in EUR)</label>
-      <input id="shipping" type="number" placeholder="z. B. 5" oninput="updateLiveProfit()">
+      <input id="shipping" type="text" placeholder="z. B. 5">
 
       <div class="field-live">
         <label>Ertrag pro Kunde</label>
@@ -208,26 +77,25 @@ footer a:hover {
       </div>
     </div>
 
-    <!-- CLV Daten -->
     <div class="column">
       <h3>CLV-Erweiterung</h3>
-      <label>Brutto-Umsatz eines Stammkunden pro Jahr (in EUR)</label>
-      <input id="repeatRevGross" type="number" placeholder="z. B. 59.50" oninput="updateLiveCLV()">
+      <label>Brutto-Umsatz Stammkunde pro Jahr (in EUR)</label>
+      <input id="repeatRevGross" type="text" placeholder="z. B. 59,50">
       <label>Nettoumsatz Stammkunde (automatisch)</label>
-      <input id="repeatRevNet" type="number" readonly>
+      <input id="repeatRevNet" type="text" readonly>
       <label>Herstellungskosten pro Jahr (in EUR)</label>
-      <input id="repeatCost" type="number" placeholder="z. B. 15" oninput="updateLiveCLV()">
+      <input id="repeatCost" type="text" placeholder="z. B. 15">
       <label>Versandkosten pro Jahr (in EUR)</label>
-      <input id="repeatShip" type="number" placeholder="z. B. 5" oninput="updateLiveCLV()">
+      <input id="repeatShip" type="text" placeholder="z. B. 5">
 
-      <div style="display:flex; gap:12px; margin-top:0px; align-items:flex-end;">
-        <div style="flex:1;">
-          <label>Anteil Neukunden, die Stammkunden werden (Prozent)</label>
-          <input id="retention" type="number" placeholder="z. B. 50" oninput="updateLiveCLV()" class="input-blue">
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:0;">
+        <div style="flex:1; min-width:120px;">
+          <label>Anteil Neukunden, die Stammkunden werden (%)</label>
+          <input id="retention" type="text" placeholder="z. B. 50" class="input-blue">
         </div>
-        <div style="flex:1;">
-          <label>Betrachtungszeitraum des CLV (Jahre)</label>
-          <input id="years" type="number" placeholder="z. B. 1" oninput="updateLiveCLV()" class="input-blue">
+        <div style="flex:1; min-width:120px;">
+          <label>Betrachtungszeitraum CLV (Jahre)</label>
+          <input id="years" type="text" placeholder="z. B. 1" class="input-blue">
         </div>
       </div>
 
@@ -267,7 +135,6 @@ footer a:hover {
   </footer>
 </div>
 
-<!-- Overlay -->
 <div class="overlay" id="overlay">
   <div class="overlay-content">
     <h3>Einbettungscode:</h3>
@@ -277,80 +144,77 @@ footer a:hover {
 </div>
 
 <script>
-function fmt(num) {
-  return num.toLocaleString("de-DE",{minimumFractionDigits:2, maximumFractionDigits:2});
-}
+// ---------- Zahl-Helper ----------
+function parseNum(value){ return parseFloat(value.toString().replace(/\./g,"").replace(",","."))||0; }
+function fmt(num,dec=2){ return isFinite(num)?num.toLocaleString("de-DE",{minimumFractionDigits:dec,maximumFractionDigits:dec}):"–"; }
 
+// ---------- Live Updates ----------
 function updateNetto(){
-  const gross = parseFloat(document.getElementById("revenueGross").value) || 0;
-  const net = gross / 1.19;
-  document.getElementById("revenueNet").value = net ? net.toFixed(2) : "";
+  const gross=parseNum(document.getElementById("revenueGross").value);
+  const net=gross/1.19;
+  document.getElementById("revenueNet").value = net?fmt(net,2):"";
   updateLiveProfit();
   updateLiveCLV();
 }
 
 function updateLiveProfit(){
-  const revenueNet = parseFloat(document.getElementById("revenueNet").value) || 0;
-  const cost = parseFloat(document.getElementById("cost").value) || 0;
-  const ship = parseFloat(document.getElementById("shipping").value) || 0;
-  const profit = revenueNet - cost - ship;
-  document.getElementById("liveProfit").innerText = fmt(profit) + " €";
+  const revenueNet=parseNum(document.getElementById("revenueNet").value);
+  const cost=parseNum(document.getElementById("cost").value);
+  const ship=parseNum(document.getElementById("shipping").value);
+  const profit=revenueNet-cost-ship;
+  document.getElementById("liveProfit").innerText = fmt(profit)+" €";
 }
 
 function updateLiveCLV(){
-  const revenueNet = parseFloat(document.getElementById("revenueNet").value) || 0;
-  const retention = (parseFloat(document.getElementById("retention").value) || 0) / 100;
-  const repeatGross = parseFloat(document.getElementById("repeatRevGross").value) || 0;
-  const repeatNet = repeatGross / 1.19;
-  document.getElementById("repeatRevNet").value = repeatNet.toFixed(2);
-
-  const repeatCost = parseFloat(document.getElementById("repeatCost").value) || 0;
-  const repeatShip = parseFloat(document.getElementById("repeatShip").value) || 0;
-  const years = parseFloat(document.getElementById("years").value) || 0;
-
-  const profitPerRepeat = (repeatNet - repeatCost - repeatShip) * retention * years;
-  document.getElementById("liveCLV").innerText = fmt(profitPerRepeat) + " €";
+  const revenueNet=parseNum(document.getElementById("revenueNet").value);
+  const retention=parseNum(document.getElementById("retention").value)/100;
+  const repeatGross=parseNum(document.getElementById("repeatRevGross").value);
+  const repeatNet=repeatGross/1.19;
+  document.getElementById("repeatRevNet").value = fmt(repeatNet,2);
+  const repeatCost=parseNum(document.getElementById("repeatCost").value);
+  const repeatShip=parseNum(document.getElementById("repeatShip").value);
+  const years=parseNum(document.getElementById("years").value);
+  const profitPerRepeat=(repeatNet-repeatCost-repeatShip)*retention*years;
+  document.getElementById("liveCLV").innerText = fmt(profitPerRepeat)+" €";
 }
 
+// ---------- ROAS ----------
 function calcROAS(){
-  const revenueNet = parseFloat(document.getElementById("revenueNet").value) || 0;
-  const cost = parseFloat(document.getElementById("cost").value) || 0;
-  const ship = parseFloat(document.getElementById("shipping").value) || 0;
+  const revenueNet=parseNum(document.getElementById("revenueNet").value);
+  const cost=parseNum(document.getElementById("cost").value);
+  const ship=parseNum(document.getElementById("shipping").value);
+  const profitFirst=revenueNet-cost-ship;
+  const marginFirst=profitFirst/revenueNet;
+  const roas1=(1/marginFirst).toFixed(2);
 
-  const retention = (parseFloat(document.getElementById("retention").value) || 0) / 100;
-  const repeatNet = parseFloat(document.getElementById("repeatRevNet").value) || 0;
-  const repeatCost = parseFloat(document.getElementById("repeatCost").value) || 0;
-  const repeatShip = parseFloat(document.getElementById("repeatShip").value) || 0;
-  const years = parseFloat(document.getElementById("years").value) || 0;
+  const retention=parseNum(document.getElementById("retention").value)/100;
+  const repeatNet=parseNum(document.getElementById("repeatRevNet").value);
+  const repeatCost=parseNum(document.getElementById("repeatCost").value);
+  const repeatShip=parseNum(document.getElementById("repeatShip").value);
+  const years=parseNum(document.getElementById("years").value);
 
-  const profitFirst = revenueNet - cost - ship;
-  const marginFirst = profitFirst / revenueNet;
-  const roas1 = (1 / marginFirst).toFixed(2);
-  const maxCostFirst = fmt(profitFirst) + " €";
+  const profitPerRepeat=(repeatNet-repeatCost-repeatShip)*retention*years;
+  const newProfit=profitFirst+profitPerRepeat;
+  const newMargin=newProfit/revenueNet;
+  const roas2=(1/newMargin).toFixed(2);
 
-  const profitPerRepeat = (repeatNet - repeatCost - repeatShip) * retention * years;
-  const newProfit = profitFirst + profitPerRepeat;
-  const newMargin = newProfit / revenueNet;
-  const roas2 = (1 / newMargin).toFixed(2);
-  const maxCost = fmt(newProfit) + " €";
-
-  document.getElementById("results").style.display = "grid";
-  document.getElementById("roas1").innerText = roas1;
-  document.getElementById("roas2").innerText = roas2;
-  document.getElementById("maxCostFirst").innerText = maxCostFirst;
-  document.getElementById("maxCost").innerText = maxCost;
+  document.getElementById("results").style.display="grid";
+  document.getElementById("roas1").innerText=roas1;
+  document.getElementById("roas2").innerText=roas2;
+  document.getElementById("maxCostFirst").innerText=fmt(profitFirst)+" €";
+  document.getElementById("maxCost").innerText=fmt(newProfit)+" €";
 }
 
-function closeOverlay(){document.getElementById("overlay").style.display="none";}
-document.getElementById("embedLink").addEventListener("click", e=>{
-  e.preventDefault();
-  document.getElementById("overlay").style.display="flex";
+// ---------- Input Format ----------
+document.querySelectorAll('#revenueGross,#cost,#shipping,#repeatRevGross,#repeatCost,#repeatShip,#retention,#years')
+  .forEach(el=>{
+    el.addEventListener('blur',()=>{ el.value=fmt(parseNum(el.value),2).replace(",00",""); });
+    el.addEventListener('input',()=>{ updateNetto(); updateLiveProfit(); updateLiveCLV(); });
 });
 
-// initial
-updateNetto();
-updateLiveProfit();
-updateLiveCLV();
+// ---------- Overlay ----------
+function closeOverlay(){ document.getElementById("overlay").style.display="none"; }
+document.getElementById("embedLink").addEventListener("click",e=>{ e.preventDefault(); document.getElementById("overlay").style.display="flex"; });
 </script>
 
 </body>
