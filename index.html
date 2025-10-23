@@ -48,8 +48,13 @@ footer a:hover { text-decoration:underline; }
 
 /* 📱 Mobile Anpassungen */
 @media (max-width: 600px){
-  .result-grid{grid-template-columns:1fr;}
-  .input-grid .column > div { display:block; }
+  .result-grid { grid-template-columns: 1fr; }
+  .input-grid .column > div { display: block; }
+  
+  /* Retention & CLV-Zeitraum untereinander */
+  .column > div[style*="flex-wrap:wrap"] {
+    flex-direction: column !important;
+  }
 }
 </style>
 </head>
@@ -219,3 +224,4 @@ document.getElementById("embedLink").addEventListener("click",e=>{ e.preventDefa
 
 </body>
 </html>
+
