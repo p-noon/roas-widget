@@ -171,13 +171,11 @@ footer a:hover {
   from {opacity:0;}
   to {opacity:1;}
 }
+
 /* 📱 Mobilanpassung */
 @media (max-width: 600px) {
   .result-grid {
     grid-template-columns: 1fr;
-  }
-  .input-grid {
-    flex-direction: column;
   }
   .input-grid > .column > div[style*="display:flex"] {
     flex-direction: column !important;
@@ -196,7 +194,7 @@ footer a:hover {
     <div class="column">
       <h3>Grunddaten Werbeaktion</h3>
       <label>Bruttoumsatz pro Bestellung (in EUR)</label>
-      <input id="revenueGross" type="number" placeholder="z. B. 59,50" oninput="updateNetto()">
+      <input id="revenueGross" type="number" placeholder="z. B. 59.50" oninput="updateNetto()">
       <label>Nettoumsatz (automatisch ermittelt)</label>
       <input id="revenueNet" type="number" readonly>
       <label>Herstellungskosten pro Bestellung (in EUR)</label>
@@ -214,7 +212,7 @@ footer a:hover {
     <div class="column">
       <h3>CLV-Erweiterung</h3>
       <label>Brutto-Umsatz eines Stammkunden pro Jahr (in EUR)</label>
-      <input id="repeatRevGross" type="number" placeholder="z. B. 59,50" oninput="updateLiveCLV()">
+      <input id="repeatRevGross" type="number" placeholder="z. B. 59.50" oninput="updateLiveCLV()">
       <label>Nettoumsatz Stammkunde (automatisch)</label>
       <input id="repeatRevNet" type="number" readonly>
       <label>Herstellungskosten pro Jahr (in EUR)</label>
@@ -279,18 +277,12 @@ footer a:hover {
 </div>
 
 <script>
-// --- Helper ---
-function parseNum(value){
-  if(!value) return 0;
-  return parseFloat(value.toString().replace(/\./g,"").replace(",","."));
-}
-function fmt(num,dec=2){
-  return isFinite(num)?num.toLocaleString("de-DE",{minimumFractionDigits:dec,maximumFractionDigits:dec}):"–";
+function fmt(num) {
+  return num.toLocaleString("de-DE",{minimumFractionDigits:2, maximumFractionDigits:2});
 }
 
-// --- Live Updates ---
 function updateNetto(){
-  const gross = parseNum(document.getElementById("revenueGross").value);
+  const gross = parseFloat(document.getElementById("revenueGross").value) || 0;
   const net = gross / 1.19;
   document.getElementById("revenueNet").value = net ? net.toFixed(2) : "";
   updateLiveProfit();
@@ -298,38 +290,38 @@ function updateNetto(){
 }
 
 function updateLiveProfit(){
-  const revenueNet = parseNum(document.getElementById("revenueNet").value);
-  const cost = parseNum(document.getElementById("cost").value);
-  const ship = parseNum(document.getElementById("shipping").value);
+  const revenueNet = parseFloat(document.getElementById("revenueNet").value) || 0;
+  const cost = parseFloat(document.getElementById("cost").value) || 0;
+  const ship = parseFloat(document.getElementById("shipping").value) || 0;
   const profit = revenueNet - cost - ship;
   document.getElementById("liveProfit").innerText = fmt(profit) + " €";
 }
 
 function updateLiveCLV(){
-  const revenueNet = parseNum(document.getElementById("revenueNet").value);
-  const retention = parseNum(document.getElementById("retention").value)/100;
-  const repeatGross = parseNum(document.getElementById("repeatRevGross").value);
-  const repeatNet = repeatGross/1.19;
-  document.getElementById("repeatRevNet").value = repeatNet ? repeatNet.toFixed(2) : "";
+  const revenueNet = parseFloat(document.getElementById("revenueNet").value) || 0;
+  const retention = (parseFloat(document.getElementById("retention").value) || 0) / 100;
+  const repeatGross = parseFloat(document.getElementById("repeatRevGross").value) || 0;
+  const repeatNet = repeatGross / 1.19;
+  document.getElementById("repeatRevNet").value = repeatNet.toFixed(2);
 
-  const repeatCost = parseNum(document.getElementById("repeatCost").value);
-  const repeatShip = parseNum(document.getElementById("repeatShip").value);
-  const years = parseNum(document.getElementById("years").value);
+  const repeatCost = parseFloat(document.getElementById("repeatCost").value) || 0;
+  const repeatShip = parseFloat(document.getElementById("repeatShip").value) || 0;
+  const years = parseFloat(document.getElementById("years").value) || 0;
 
   const profitPerRepeat = (repeatNet - repeatCost - repeatShip) * retention * years;
   document.getElementById("liveCLV").innerText = fmt(profitPerRepeat) + " €";
 }
 
 function calcROAS(){
-  const revenueNet = parseNum(document.getElementById("revenueNet").value);
-  const cost = parseNum(document.getElementById("cost").value);
-  const ship = parseNum(document.getElementById("shipping").value);
+  const revenueNet = parseFloat(document.getElementById("revenueNet").value) || 0;
+  const cost = parseFloat(document.getElementById("cost").value) || 0;
+  const ship = parseFloat(document.getElementById("shipping").value) || 0;
 
-  const retention = parseNum(document.getElementById("retention").value)/100;
-  const repeatNet = parseNum(document.getElementById("repeatRevNet").value);
-  const repeatCost = parseNum(document.getElementById("repeatCost").value);
-  const repeatShip = parseNum(document.getElementById("repeatShip").value);
-  const years = parseNum(document.getElementById("years").value);
+  const retention = (parseFloat(document.getElementById("retention").value) || 0) / 100;
+  const repeatNet = parseFloat(document.getElementById("repeatRevNet").value) || 0;
+  const repeatCost = parseFloat(document.getElementById("repeatCost").value) || 0;
+  const repeatShip = parseFloat(document.getElementById("repeatShip").value) || 0;
+  const years = parseFloat(document.getElementById("years").value) || 0;
 
   const profitFirst = revenueNet - cost - ship;
   const marginFirst = profitFirst / revenueNet;
@@ -349,23 +341,13 @@ function calcROAS(){
   document.getElementById("maxCost").innerText = maxCost;
 }
 
-// --- Overlay ---
 function closeOverlay(){document.getElementById("overlay").style.display="none";}
 document.getElementById("embedLink").addEventListener("click", e=>{
   e.preventDefault();
   document.getElementById("overlay").style.display="flex";
 });
 
-// --- Eingabefelder Formatierung ---
-document.querySelectorAll('#revenueGross,#cost,#shipping,#repeatRevGross,#repeatCost,#repeatShip,#retention,#years')
-  .forEach(el=>{
-    el.addEventListener('blur', e=>{
-      const value = parseNum(e.target.value);
-      if(!isNaN(value)) e.target.value = fmt(value);
-    });
-});
-
-// --- Initial ---
+// initial
 updateNetto();
 updateLiveProfit();
 updateLiveCLV();
