@@ -259,19 +259,24 @@ function sendHeight() {
   parent.postMessage({ type: "resizeIframe", height }, "https://deine-wix-domain.de");
 }
 
-// direkt nach Laden
-window.addEventListener("load", sendHeight);
+// 1️⃣ Direkt nach Laden
+window.addEventListener("load", () => {
+  setTimeout(sendHeight, 500); // kleine Verzögerung, damit alles gerendert ist
+});
 
-// beobachten, wenn sich DOM ändert
-const observer = new MutationObserver(sendHeight);
+// 2️⃣ MutationObserver: bei DOM-Änderungen (z. B. Slider, CLV-Updates)
+const observer = new MutationObserver(() => {
+  sendHeight();
+});
 observer.observe(document.body, { childList: true, subtree: true });
 
-// optional bei Resize
+// 3️⃣ Resize-Event: falls Fenstergröße den Rechner beeinflusst
 window.addEventListener("resize", sendHeight);
 </script>
 
 </body>
 </html>
+
 
 
 
