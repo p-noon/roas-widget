@@ -253,8 +253,22 @@ document.querySelectorAll('#revenueGross,#cost,#shipping,#repeatRevGross,#repeat
 // ---------- Overlay ----------
 function closeOverlay(){ document.getElementById("overlay").style.display="none"; }
 document.getElementById("embedLink").addEventListener("click",e=>{ e.preventDefault(); document.getElementById("overlay").style.display="flex"; });
+
+  window.addEventListener("load", () => {
+  setTimeout(() => {
+    const height = document.body.scrollHeight;
+    parent.postMessage({ type: "resizeIframe", height: height }, "*");
+  }, 300);
+});
+
+const observer = new MutationObserver(() => {
+  const height = document.body.scrollHeight;
+  parent.postMessage({ type: "resizeIframe", height: height }, "*");
+});
+observer.observe(document.body, { childList: true, subtree: true });
 </script>
 
 </body>
 </html>
+
 
