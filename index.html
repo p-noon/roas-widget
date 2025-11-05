@@ -254,24 +254,25 @@ document.querySelectorAll('#revenueGross,#cost,#shipping,#repeatRevGross,#repeat
 function closeOverlay(){ document.getElementById("overlay").style.display="none"; }
 document.getElementById("embedLink").addEventListener("click",e=>{ e.preventDefault(); document.getElementById("overlay").style.display="flex"; });
 
-  function sendHeight() {
+function sendHeight() {
   const height = document.documentElement.scrollHeight;
-  window.parent.postMessage({ type: "resizeIframe", height }, "*");
+  parent.postMessage({ type: "resizeIframe", height }, "https://deine-wix-domain.de");
 }
 
-// Initial senden
-window.addEventListener("load", () => {
-  setTimeout(sendHeight, 500);
-});
+// direkt nach Laden
+window.addEventListener("load", sendHeight);
 
-// Bei Änderungen neu senden
+// beobachten, wenn sich DOM ändert
 const observer = new MutationObserver(sendHeight);
 observer.observe(document.body, { childList: true, subtree: true });
+
+// optional bei Resize
 window.addEventListener("resize", sendHeight);
 </script>
 
 </body>
 </html>
+
 
 
 
