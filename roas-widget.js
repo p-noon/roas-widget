@@ -54,7 +54,7 @@ class ROASWidget extends HTMLElement {
       </style>
 
       <div class="roas-calculator">
-        <h2>Break-Even-ROAS-Rechner</h2>
+        <h2>BREAK-Even-ROAS-Rechner</h2>
         <p class="subtitle">Berechne deinen Break-even-ROAS inkl. CLV über beliebig viele Jahre.</p>
 
         <div class="input-grid">
