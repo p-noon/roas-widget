@@ -20,7 +20,7 @@ class ROASWidget extends HTMLElement {
         }
 
         h2 { text-align:center; font-size:1.8rem; margin-bottom:6px; }
-        .subtitle { text-align:center; color:#666; margin-bottom:24px; }
+        .subtitle { font-size: 1rem; text-align:center; color:#666; margin-bottom:24px; }
 
         .input-grid { display:flex; gap:24px; flex-wrap:wrap; }
         .column { flex:1; min-width:280px; }
@@ -43,6 +43,7 @@ class ROASWidget extends HTMLElement {
         .result-card { background:#f5f5f7; padding:16px; border-radius:16px; transition: transform 0.3s; }
         .result-card.highlight { background:#e8f0fe; box-shadow:0 0 0 2px #0071e3 inset; }
         .result-card h1 { margin:6px 0; font-size:1.8rem; }
+        .result-card p {font-size: 0.95rem;}
         .field-live { margin-top:16px; }
         .field-live h2 { font-size:1.4rem; color:#0071e3; margin:6px 0 0 0; font-weight:600; }
 
