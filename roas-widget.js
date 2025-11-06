@@ -9,7 +9,7 @@ class ROASWidget extends HTMLElement {
         * { box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",Roboto,sans-serif; }
         :host { display:block; }
         .roas-calculator {
-          max-width:900px; margin:40px auto; background:#fff; border-radius:24px; box-shadow:0 8px 20px rgba(0,0,0,0.08); padding:32px; color:#1c1c1e;
+          width:90%; max-width:1200px; margin:40px auto; background:#fff; border-radius:24px; box-shadow:0 8px 20px rgba(0,0,0,0.08); padding:32px; color:#1c1c1e;
         }
         h2 { text-align:center; font-size:1.8rem; margin-bottom:6px; }
         .subtitle { text-align:center; color:#666; margin-bottom:24px; }
@@ -47,7 +47,17 @@ class ROASWidget extends HTMLElement {
     :host(:focus) { outline: none; }
         
         @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+        @media (max-width: 1024px) { /* Tablet */
+  .roas-calculator {
+    max-width: 900px;
+  }
+}
         @media (max-width:600px){
+          .roas-calculator {
+    max-width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+  }
           .result-grid { grid-template-columns:1fr; }
           .input-grid { flex-direction:column; }
         }
