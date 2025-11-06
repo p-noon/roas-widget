@@ -126,7 +126,7 @@ class ROASWidget extends HTMLElement {
 
             <div class="clv-row" style="display:flex; gap:12px; flex-wrap:wrap; margin-top:0;">
               <div style="flex:1; min-width:120px;">
-                <label>Anteil Neukunden, die Stammkunden werden (%)</label>
+                <label>Anteil Kunden, die Stammkunden werden (%)</label>
                 <input id="retention" type="text" placeholder="z. B. 50" class="input-blue">
               </div>
               <div style="flex:1; min-width:120px;">
