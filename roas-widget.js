@@ -43,6 +43,9 @@ class ROASWidget extends HTMLElement {
         .overlay-content textarea{ width:100%; height:120px; font-family:monospace; border-radius:8px; border:1px solid #ccc; padding:8px; box-sizing:border-box; }
         .close-btn{ background:#0071e3; color:white; border:none; padding:8px 16px; border-radius:8px; margin-top:12px; cursor:pointer; }
         .close-btn:hover{background:#0a84ff;}
+        :host { outline: none; }
+    :host(:focus) { outline: none; }
+        
         @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
         @media (max-width:600px){
           .result-grid { grid-template-columns:1fr; }
