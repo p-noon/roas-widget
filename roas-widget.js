@@ -97,7 +97,7 @@ class ROASWidget extends HTMLElement {
 
         <div class="input-grid">
           <div class="column">
-            <h3>Grunddaten Werbeaktion</h3>
+            <h3 style="font-size: 1.3em;">Grunddaten Werbeaktion</h3>
             <label>Bruttoumsatz pro Bestellung (in EUR)</label>
             <input id="revenueGross" type="text" placeholder="z. B. 59,50">
             <label>Nettoumsatz (automatisch)</label>
@@ -113,7 +113,7 @@ class ROASWidget extends HTMLElement {
           </div>
 
           <div class="column">
-            <h3>CLV-Erweiterung</h3>
+            <h3 style="font-size: 1.3em;">CLV-Erweiterung</h3>
             <label>Brutto-Umsatz Stammkunde pro Jahr (in EUR)</label>
             <input id="repeatRevGross" type="text" placeholder="z. B. 59,50">
             <label>Nettoumsatz Stammkunde (automatisch)</label>
